@@ -1,0 +1,258 @@
+{
+  "info": {
+    "_postman_id": "ceba00c8-b111-4498-af1d-6a26fa72e794",
+    "name": "Examen_Animal_Villegas",
+    "description": "Colección de pruebas para la API REST CRUD de animales. Ejecutar en orden: POST, GET lista, GET por ID, PUT, DELETE y GET posterior para comprobar 404.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57810839",
+    "_collection_link": "https://go.postman.co/collection/57810839-ceba00c8-b111-4498-af1d-6a26fa72e794?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01 - Crear animal (POST - 201)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('El servidor responde 201 Created', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "const respuesta = pm.response.json();",
+              "if (respuesta.id !== undefined) {",
+              "    pm.collectionVariables.set('animalId', respuesta.id);",
+              "    console.log('ID guardado:', respuesta.id);",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Usuario",
+            "value": "nicolas"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombre\": \"Max\",\n    \"especie\": \"Perro\",\n    \"raza\": \"Labrador\",\n    \"edad\": 3,\n    \"peso\": 25.5,\n    \"color\": \"Dorado\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/animales",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "animales"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "02 - Listar animales (GET - 200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('El servidor responde 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/animales",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "animales"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "03 - Buscar animal por ID (GET - 200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('El servidor responde 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/animales/{{animalId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "animales",
+            "{{animalId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "04 - Actualizar animal (PUT - 200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('El servidor responde 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Usuario",
+            "value": "nicolas"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombre\": \"Max Actualizado\",\n    \"especie\": \"Perro\",\n    \"raza\": \"Golden Retriever\",\n    \"edad\": 4,\n    \"peso\": 28.5,\n    \"color\": \"Dorado\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/animales/{{animalId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "animales",
+            "{{animalId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "05 - Eliminar animal lógicamente (DELETE - 204)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('El servidor responde 204 No Content', function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-Usuario",
+            "value": "nicolas"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/animales/{{animalId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "animales",
+            "{{animalId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "06 - Consultar animal eliminado (GET - 404)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('El servidor responde 404 Not Found', function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/animales/{{animalId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "animales",
+            "{{animalId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "animalId",
+      "value": "1"
+    }
+  ]
+}
